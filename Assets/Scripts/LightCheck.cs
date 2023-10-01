@@ -17,7 +17,7 @@ public class LightCheck : MonoBehaviour
         pointLights = new List<Light>();
         foreach (Light light in allLights)
         {
-            if (light.type == LightType.Spot)
+            if (light.type == LightType.Spot || light.type == LightType.Point)
             {
                 pointLights.Add(light);
             }
@@ -42,27 +42,43 @@ public class LightCheck : MonoBehaviour
 
             if (distanceToPlayer <= pointLight.range)
             {
+                Vector3 lightToPlayer = playerPosition - lightPosition;
+                if (pointLight.type == LightType.Point)
+                {
+                    isNowInShadow = IsInBuildingsShadow(lightPosition, lightToPlayer, pointLight);
+                    if (!isNowInShadow)
+                    {
+                        break;
+                    }
+                }
                 // Check if player is within the spotlight cone
                 Vector3 lightDirection = pointLight.transform.forward;
-                Vector3 lightToPlayer = playerPosition - lightPosition;
                 float angleBetweenPlayerAndLight = Vector3.Angle(lightDirection, lightToPlayer.normalized);
 
                 if (angleBetweenPlayerAndLight <= pointLight.spotAngle / 2)
                 {
-                    // buildings'shadow check
-                    RaycastHit hit;
-                    if (Physics.Raycast(lightPosition, lightToPlayer.normalized, out hit, pointLight.range))
+                    isNowInShadow = IsInBuildingsShadow(lightPosition, lightToPlayer, pointLight);
+                    if (!isNowInShadow)
                     {
-                        if (hit.collider.gameObject == gameObject)
-                        {
-                            isNowInShadow = false;
-                            break;
-                        }
+                        break;
                     }
                 }
             }
         }
 
         isInShadow = isNowInShadow;
+    }
+
+    private bool IsInBuildingsShadow(Vector3 lightPosition, Vector3 lightToPlayer, Light pointLight)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(lightPosition, lightToPlayer.normalized, out hit, pointLight.range))
+        {
+            if (hit.collider.gameObject == gameObject)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

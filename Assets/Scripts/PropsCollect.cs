@@ -5,7 +5,6 @@ using UnityEngine;
 public class PropsCollect : MonoBehaviour
 {
     public GameObject mapGuide;
-    public float guideTime = 2.0f;
 
     private bool playerNearby;
     private BagManager bagManager;
