@@ -15,7 +15,7 @@ public class BagManager : MonoBehaviour
 
     public void UpdateUI()
     {
-        string text = "Keys: " + (items.ContainsKey("Key") ? items["Key"] : 0) + "\nPotions: " + (items.ContainsKey("Potion") ? items["Potion"] : 0);
+        string text = "Keys: " + (items.ContainsKey("Key") ? items["Key"] : 0) + "\nPotions: " + (items.ContainsKey("Potion") ? items["Potion"] : 0) + "\nArt: " + (items.ContainsKey("Art") ? items["Art"] : 0);
         bagText.text = text;
     }
 

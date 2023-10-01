@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public float interactDistance = 2f;
 
     private GameObject planet;
-    private BagManager bagManager;
+    //private BagManager bagManager;
     private Rigidbody rb;
     private Vector3 moveDirection;
 
@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         planet = GameObject.FindWithTag("Plane");
-        bagManager = GameObject.FindWithTag("BagManager").GetComponent<BagManager>();
     }
 
     void Update()
@@ -27,19 +26,6 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         moveDirection = (horizontal * transform.right + vertical * transform.forward).normalized;
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            PickupItem();
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            UseKey();
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            bagManager.UseItem("Potion");
-        }
     }
 
     void FixedUpdate()
@@ -62,33 +48,5 @@ public class PlayerController : MonoBehaviour
         Vector3 newPosition = rb.position;
         newPosition = (newPosition - planet.transform.position).normalized * (planet.transform.localScale.x / 2);
         rb.MovePosition(planet.transform.position + newPosition);
-    }
-
-    private void PickupItem()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, interactDistance))
-        {
-            if (hit.collider.CompareTag("Key") || hit.collider.CompareTag("Potion"))
-            {
-                bagManager.AddItem(hit.collider.tag);
-                Destroy(hit.collider.gameObject);
-                bagManager.UpdateUI();
-            }
-        }
-    }
-
-    private void UseKey()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, interactDistance))
-        {
-            if (hit.collider.CompareTag("Lock") && bagManager.UseItem("Key"))
-            {
-                bagManager.UseItem("Key");
-                Debug.Log("use key");
-                bagManager.UpdateUI();
-            }
-        }
     }
 }
