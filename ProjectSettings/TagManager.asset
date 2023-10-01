@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Plane
+  - Building
+  - Key
+  - Potion
+  - BagManager
+  - BagUI
   layers:
   - Default
   - TransparentFX
