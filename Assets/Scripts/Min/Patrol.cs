@@ -57,10 +57,10 @@ public class Patrol : MonoBehaviour
 
     void SwitchStates()
     {
-        if (FoundPlayer())
-        {
-            enemyState = EnemyStates.CHASE;
-        }
+        // if (FoundPlayer())
+        // {
+            // enemyState = EnemyStates.CHASE;
+        // }
 
         switch (enemyState)
         {

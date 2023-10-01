@@ -15,6 +15,7 @@ TagManager:
   - Lock
   - Ring
   - Guide
+  - Police
   layers:
   - Default
   - TransparentFX

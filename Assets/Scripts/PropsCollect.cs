@@ -84,7 +84,18 @@ public class PropsCollect : MonoBehaviour
 
     private void UseRing()
     {
-        // TODO
+        Quaternion rotationQuaternion = Quaternion.FromToRotation(transform.up, transform.right);
+        transform.rotation = rotationQuaternion * transform.rotation;
+        gameObject.tag = "Untagged";
+        // 把警察调过来
+        GameObject police = GameObject.FindWithTag("Police");
+        if (police)
+        {
+            //Vector3 directionToPlayer = transform.position - police.transform.position;
+            //Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.position, police.transform.position);
+            police.transform.rotation = Quaternion.Slerp(police.transform.rotation, targetRotation, 1.0f);
+        }
     }
 
     public void CreateMapGuide()
