@@ -8,7 +8,7 @@ public class BagManager : MonoBehaviour
     public Dictionary<string, int> items;
     public TextMeshProUGUI bagText;
 
-    private void Start()
+    void Start()
     {
         items = new Dictionary<string, int>();
     }

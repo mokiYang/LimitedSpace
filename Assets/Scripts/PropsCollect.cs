@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class PropsCollect : MonoBehaviour
 {
+    public GameObject mapGuide;
+    public float guideTime = 2.0f;
+
     private bool playerNearby;
     private BagManager bagManager;
 
-    private void Start()
+    void Start()
     {
         bagManager = GameObject.FindWithTag("BagManager").GetComponent<BagManager>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("OnTriggerEnter");
         if (other.CompareTag("Player"))
         {
             playerNearby = true;
@@ -29,7 +31,7 @@ public class PropsCollect : MonoBehaviour
         }
     }
 
-    private void Update()
+    void Update()
     {
         if (playerNearby)
         {
@@ -45,6 +47,10 @@ public class PropsCollect : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Space) && gameObject.tag == "Lock")
             {
                 UseKey();
+            }
+            else if (Input.GetKeyDown(KeyCode.Space) && gameObject.tag == "Ring")
+            {
+                UseRing();
             }
             else if (Input.GetKeyDown(KeyCode.E) && gameObject.tag == "Map")
             {
@@ -64,14 +70,29 @@ public class PropsCollect : MonoBehaviour
     {
         if (bagManager.UseItem("Key"))
         {
-            bagManager.UseItem("Key");
             bagManager.UpdateUI();
+            gameObject.tag = "Art";
         }
     }
 
+
     private void UseMap()
     {
+        Debug.Log("use map");
+        CreateMapGuide();
         Destroy(gameObject);
+    }
+
+    private void UseRing()
+    {
         // TODO
+    }
+
+    public void CreateMapGuide()
+    {
+        if (mapGuide != null)
+        {
+            Instantiate(mapGuide, transform.position, Quaternion.identity);
+        }
     }
 }

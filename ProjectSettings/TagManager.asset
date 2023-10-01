@@ -10,6 +10,11 @@ TagManager:
   - Potion
   - BagManager
   - BagUI
+  - Map
+  - Art
+  - Lock
+  - Ring
+  - Guide
   layers:
   - Default
   - TransparentFX

@@ -5,10 +5,11 @@ using UnityEngine;
 public class LightCheck : MonoBehaviour
 {
     public float checkDistance = 30f;
+    public bool isInShadow = true;
 
     private List<Light> pointLights;
 
-    private void Start()
+    void Start()
     {
         Light[] allLights = FindObjectsOfType<Light>();
 
@@ -23,11 +24,11 @@ public class LightCheck : MonoBehaviour
         }
     }
 
-    private void Update()
+    void Update()
     {
         Vector3 playerPosition = transform.position;
 
-        bool isInShadow = true;
+        bool isNowInShadow = true;
 
         foreach (Light pointLight in pointLights)
         {
@@ -54,7 +55,7 @@ public class LightCheck : MonoBehaviour
                     {
                         if (hit.collider.gameObject == gameObject)
                         {
-                            isInShadow = false;
+                            isNowInShadow = false;
                             break;
                         }
                     }
@@ -62,9 +63,6 @@ public class LightCheck : MonoBehaviour
             }
         }
 
-        if (!isInShadow)
-        {
-            Debug.Log("in light");
-        }
+        isInShadow = isNowInShadow;
     }
 }
