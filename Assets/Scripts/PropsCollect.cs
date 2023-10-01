@@ -87,14 +87,12 @@ public class PropsCollect : MonoBehaviour
         Quaternion rotationQuaternion = Quaternion.FromToRotation(transform.up, transform.right);
         transform.rotation = rotationQuaternion * transform.rotation;
         gameObject.tag = "Untagged";
-        // 把警察调过来
         GameObject police = GameObject.FindWithTag("Police");
+        Transform policeReal = police.transform.GetChild(0);
         if (police)
         {
-            //Vector3 directionToPlayer = transform.position - police.transform.position;
-            //Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.position, police.transform.position);
-            police.transform.rotation = Quaternion.Slerp(police.transform.rotation, targetRotation, 1.0f);
+            Quaternion targetRotation = Quaternion.FromToRotation(policeReal.transform.position, transform.position + new Vector3(1.5f, 1.5f, 1.5f));
+            police.transform.rotation = Quaternion.Lerp(policeReal.transform.rotation, targetRotation, 5.0f);
         }
     }
 
