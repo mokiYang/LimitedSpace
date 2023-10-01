@@ -1567,9 +1567,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startRotation: {x: 0, y: 68, z: 45}
-  sightRadius: 8
-  speed: 10
+  sightRadius: 7
+  speed: 3
   patrolRange: 30
+  lookAtTime: 1
 --- !u!4 &1982168199
 Transform:
   m_ObjectHideFlags: 0

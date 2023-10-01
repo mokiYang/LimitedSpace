@@ -21,10 +21,14 @@ public class Patrol : MonoBehaviour
     Quaternion tempRot;
     float timer = 0f;
 
+    public float lookAtTime;
+    float remainingTime;
+
     private void Start()
     {
         enemyState = EnemyStates.PATROL;
         GetNewWayPoint();
+        remainingTime = lookAtTime;
     }
 
     private void Update()
@@ -44,9 +48,19 @@ public class Patrol : MonoBehaviour
             case EnemyStates.PATROL:
                 if(timer/speed >= 0.99f)
                 {
-                    GetNewWayPoint();
-                    timer = 0f;
-                    print("aaa");
+                    if(remainingTime >= 0)
+                    {
+                        remainingTime -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        GetNewWayPoint();
+                        remainingTime = lookAtTime;
+                        timer = 0f;
+                    }
+                    
+                    
+                    //print("aaa");
                 }
                 else
                 {
@@ -59,10 +73,11 @@ public class Patrol : MonoBehaviour
                 if (!FoundPlayer())
                 {
                     //backe to original position
+                    enemyState = EnemyStates.PATROL;
                 }
                 else
                 {
-                    //rotate to target
+                    //rotate towards player
                 }
                 break;
         }
@@ -71,7 +86,7 @@ public class Patrol : MonoBehaviour
 
     bool FoundPlayer()
     {
-        var colliders = Physics.OverlapSphere(transform.position, sightRadius);
+        var colliders = Physics.OverlapSphere(transform.GetChild(0).position, sightRadius);
         foreach (var item in colliders)
         {
             if (item.CompareTag("Player"))
@@ -100,6 +115,6 @@ public class Patrol : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, sightRadius);
+        Gizmos.DrawWireSphere(transform.GetChild(0).position, sightRadius);
     }
 }
