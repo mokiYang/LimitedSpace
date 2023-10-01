@@ -33,7 +33,26 @@ public class Patrol : MonoBehaviour
 
     private void Update()
     {
-        SwitchStates();
+        //SwitchStates();
+        if (timer / speed >= 0.99f)
+        {
+            if (remainingTime >= 0)
+            {
+                remainingTime -= Time.deltaTime;
+            }
+            else
+            {
+                GetNewWayPoint();
+                remainingTime = lookAtTime;
+                timer = 0f;
+            }
+        }
+        else
+        {
+            transform.rotation = Quaternion.Lerp(tempRot, Quaternion.Euler(wayPoint), timer / speed);
+            timer += Time.deltaTime;
+            //transform.Rotate(rotateDir * speed * Time.deltaTime);
+        }
     }
 
     void SwitchStates()
@@ -58,9 +77,6 @@ public class Patrol : MonoBehaviour
                         remainingTime = lookAtTime;
                         timer = 0f;
                     }
-                    
-                    
-                    //print("aaa");
                 }
                 else
                 {
@@ -78,6 +94,9 @@ public class Patrol : MonoBehaviour
                 else
                 {
                     //rotate towards player
+                    Vector3 directionToPlayer = attackTarget.transform.position - transform.position;
+                    Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, speed);
                 }
                 break;
         }
@@ -101,12 +120,11 @@ public class Patrol : MonoBehaviour
 
     void GetNewWayPoint()
     {
+        float randomX = Random.Range(startRotation.x - patrolRange, startRotation.x + patrolRange);
         float randomY = Random.Range(startRotation.y - patrolRange, startRotation.y + patrolRange);
         float randomZ = Random.Range(startRotation.z - patrolRange, startRotation.z + patrolRange);
-        print(randomY);
-        print(randomZ);
 
-        Vector3 randomRotation = new Vector3(0, randomY, randomZ);
+        Vector3 randomRotation = new Vector3(randomX, randomY, randomZ);
         wayPoint = randomRotation;
         tempRot = transform.rotation;
         //rotateDir = wayPoint - transform.rotation.eulerAngles;
