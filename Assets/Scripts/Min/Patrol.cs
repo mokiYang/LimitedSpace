@@ -130,9 +130,9 @@ public class Patrol : MonoBehaviour
         //rotateDir = wayPoint - transform.rotation.eulerAngles;
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.GetChild(0).position, sightRadius);
-    }
+    //private void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(transform.GetChild(0).position, sightRadius);
+    //}
 }
