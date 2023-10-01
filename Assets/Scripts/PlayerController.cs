@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // I cant describe in English hahah
         // 获取 player 真正的重力方向（指向球心
         Vector3 gravityUp = (rb.position - planet.transform.position).normalized;
         Vector3 localUp = transform.up;

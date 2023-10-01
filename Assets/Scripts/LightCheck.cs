@@ -41,16 +41,22 @@ public class LightCheck : MonoBehaviour
 
             if (distanceToPlayer <= pointLight.range)
             {
-                // buildings'shadow check
+                // Check if player is within the spotlight cone
+                Vector3 lightDirection = pointLight.transform.forward;
                 Vector3 lightToPlayer = playerPosition - lightPosition;
+                float angleBetweenPlayerAndLight = Vector3.Angle(lightDirection, lightToPlayer.normalized);
 
-                RaycastHit hit;
-                if (Physics.Raycast(lightPosition, lightToPlayer.normalized, out hit, pointLight.range))
+                if (angleBetweenPlayerAndLight <= pointLight.spotAngle / 2)
                 {
-                    if (hit.collider.gameObject == gameObject)
+                    // buildings'shadow check
+                    RaycastHit hit;
+                    if (Physics.Raycast(lightPosition, lightToPlayer.normalized, out hit, pointLight.range))
                     {
-                        isInShadow = false;
-                        break;
+                        if (hit.collider.gameObject == gameObject)
+                        {
+                            isInShadow = false;
+                            break;
+                        }
                     }
                 }
             }
