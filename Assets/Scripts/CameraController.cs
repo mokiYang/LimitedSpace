@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform player;
-    public Transform planet;
+    private GameObject player;
+    private GameObject planet;
     public float distance = 15.0f;
     public float rotationSpeed = 5.0f;
 
+    void Start()
+    {
+        planet = GameObject.FindWithTag("Plane");
+        player = GameObject.FindWithTag("Player");
+    }
+
     void Update()
     {
-        Vector3 direction = (player.position - planet.position).normalized;
+        Vector3 direction = (player.transform.position - planet.transform.position).normalized;
 
-        Vector3 cameraPosition = player.position + direction * distance;
+        Vector3 cameraPosition = player.transform.position + direction * distance;
 
         transform.position = cameraPosition;
 
-        Vector3 targetForward = (player.position - transform.position).normalized;
+        Vector3 targetForward = (player.transform.position - transform.position).normalized;
 
         Quaternion targetRotation = Quaternion.LookRotation(targetForward, transform.up);
 
