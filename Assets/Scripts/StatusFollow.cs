@@ -14,4 +14,14 @@ public class StatusFollow : MonoBehaviour
             image.sprite = sprites[stateIndex];
         }
     }
+
+    public void CloseImage()
+    {
+        image.enabled = false;
+    }
+
+    public void ShowImage()
+    {
+        image.enabled = true;
+    }
 }
