@@ -45,11 +45,13 @@ public class LightCheck : MonoBehaviour
                 Vector3 lightToPlayer = playerPosition - lightPosition;
                 if (pointLight.type == LightType.Point)
                 {
-                    isNowInShadow = IsInBuildingsShadow(lightPosition, lightToPlayer, pointLight);
-                    if (!isNowInShadow)
-                    {
-                        break;
-                    }
+                    isNowInShadow = false;
+                    break;
+                    //isNowInShadow = IsInBuildingsShadow(lightPosition, lightToPlayer, pointLight);
+                    //if (!isNowInShadow)
+                    //{
+                    //    break;
+                    //}
                 }
                 // Check if player is within the spotlight cone
                 Vector3 lightDirection = pointLight.transform.forward;
@@ -57,11 +59,13 @@ public class LightCheck : MonoBehaviour
 
                 if (angleBetweenPlayerAndLight <= pointLight.spotAngle / 2)
                 {
-                    isNowInShadow = IsInBuildingsShadow(lightPosition, lightToPlayer, pointLight);
-                    if (!isNowInShadow)
-                    {
-                        break;
-                    }
+                    isNowInShadow = false;
+                    break;
+                    //isNowInShadow = IsInBuildingsShadow(lightPosition, lightToPlayer, pointLight);
+                    //if (!isNowInShadow)
+                    //{
+                    //    break;
+                    //}
                 }
             }
         }

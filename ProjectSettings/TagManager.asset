@@ -28,6 +28,7 @@ TagManager:
   - Invisible
   - Teach
   - StatusUI
+  - Door
   layers:
   - Default
   - TransparentFX

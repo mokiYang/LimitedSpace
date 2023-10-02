@@ -8,10 +8,12 @@ public class PropsCollect : MonoBehaviour
 
     private bool playerNearby;
     private BagManager bagManager;
+    private CanvasGroup successCanvas;
 
     void Start()
     {
         bagManager = GameObject.FindWithTag("BagManager").GetComponent<BagManager>();
+        successCanvas = GameObject.FindWithTag("Success").GetComponent<CanvasGroup>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -55,6 +57,10 @@ public class PropsCollect : MonoBehaviour
             {
                 UseMap();
             }
+            else if (gameObject.tag == "Door")
+            {
+                Exit();
+            }
         }
     }
 
@@ -93,6 +99,16 @@ public class PropsCollect : MonoBehaviour
         {
             Quaternion targetRotation = Quaternion.FromToRotation(policeReal.transform.position, transform.position + new Vector3(1.5f, 1.5f, 1.5f));
             police.transform.rotation = Quaternion.Lerp(policeReal.transform.rotation, targetRotation, 5.0f);
+        }
+    }
+
+    private void Exit()
+    {
+        if (bagManager.HasItem("Art"))
+        {
+            successCanvas.alpha = 1;
+            successCanvas.interactable = true;
+            successCanvas.blocksRaycasts = true;
         }
     }
 

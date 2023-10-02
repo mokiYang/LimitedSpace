@@ -22,6 +22,7 @@ public class LifeManager : MonoBehaviour
         lightCheck = GameObject.FindWithTag("Player").GetComponent<LightCheck>();
         bagManager = GameObject.FindWithTag("BagManager").GetComponent<BagManager>();
         failCanvas = GameObject.FindWithTag("Fail").GetComponent<CanvasGroup>();
+        successCanvas = GameObject.FindWithTag("Success").GetComponent<CanvasGroup>();
         statusFollow = GameObject.FindWithTag("StatusUI").GetComponent<StatusFollow>();
     }
 

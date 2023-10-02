@@ -21,9 +21,9 @@ public class BagManager : MonoBehaviour
 
     public void UpdateUI()
     {
-        key.alpha = items.ContainsKey("Key") ? 1 : 0;
-        potion.alpha = items.ContainsKey("Potion") ? 1 : 0;
-        art.alpha = items.ContainsKey("Art") ? 1 : 0;
+        key.alpha = HasItem("Key") ? 1 : 0;
+        potion.alpha = HasItem("Potion") ? 1 : 0;
+        art.alpha = HasItem("Art") ? 1 : 0;
     }
 
     public void AddItem(string tag)
@@ -43,6 +43,15 @@ public class BagManager : MonoBehaviour
         if (items.ContainsKey(tag) && items[tag] > 0)
         {
             items[tag]--;
+            return true;
+        }
+        return false;
+    }
+
+    public bool HasItem(string tag)
+    {
+        if (items.ContainsKey(tag) && items[tag] > 0)
+        {
             return true;
         }
         return false;
