@@ -6,17 +6,24 @@ using TMPro;
 public class BagManager : MonoBehaviour
 {
     public Dictionary<string, int> items;
-    public TextMeshProUGUI bagText;
+
+    private CanvasGroup key;
+    private CanvasGroup potion;
+    private CanvasGroup art;
 
     void Start()
     {
         items = new Dictionary<string, int>();
+        key = GameObject.FindWithTag("KeyUI").GetComponent<CanvasGroup>();
+        potion = GameObject.FindWithTag("PotionUI").GetComponent<CanvasGroup>();
+        art = GameObject.FindWithTag("ArtUI").GetComponent<CanvasGroup>();
     }
 
     public void UpdateUI()
     {
-        string text = "Keys: " + (items.ContainsKey("Key") ? items["Key"] : 0) + "\nPotions: " + (items.ContainsKey("Potion") ? items["Potion"] : 0) + "\nArt: " + (items.ContainsKey("Art") ? items["Art"] : 0);
-        bagText.text = text;
+        key.alpha = items.ContainsKey("Key") ? 1 : 0;
+        potion.alpha = items.ContainsKey("Potion") ? 1 : 0;
+        art.alpha = items.ContainsKey("Art") ? 1 : 0;
     }
 
     public void AddItem(string tag)

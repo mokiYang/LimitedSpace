@@ -16,6 +16,17 @@ TagManager:
   - Ring
   - Guide
   - Police
+  - Fail
+  - Success
+  - 1
+  - 2
+  - 3
+  - KeyUI
+  - PotionUI
+  - ArtUI
+  - Hide
+  - Invisible
+  - Teach
   layers:
   - Default
   - TransparentFX
