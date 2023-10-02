@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 5.0f;
+    public float lightSpeed = 3.0f;
     public float interactDistance = 2f;
 
+    private LightCheck lightCheck;
     private GameObject planet;
     private Rigidbody rb;
     private Vector3 moveDirection;
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         planet = GameObject.FindWithTag("Plane");
+        lightCheck = GameObject.FindWithTag("Player").GetComponent<LightCheck>();
     }
 
     void Update()
@@ -41,7 +44,8 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 50 * Time.fixedDeltaTime);
 
         Vector3 projectedMoveDirection = Vector3.ProjectOnPlane(moveDirection, gravityUp);
-        rb.MovePosition(rb.position + projectedMoveDirection * speed * Time.fixedDeltaTime);
+        float realSpeed = lightCheck.isInShadow ? speed : lightSpeed;
+        rb.MovePosition(rb.position + projectedMoveDirection * realSpeed * Time.fixedDeltaTime);
 
         // 让 player 保持在 plane 表面，不这么写 player 就会莫名向天上飞
         Vector3 newPosition = rb.position;

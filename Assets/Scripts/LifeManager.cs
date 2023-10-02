@@ -14,23 +14,15 @@ public class LifeManager : MonoBehaviour
     private bool inInvisible = false;
     private CanvasGroup successCanvas;
     private CanvasGroup failCanvas;
-    private CanvasGroup countdown1;
-    private CanvasGroup countdown2;
-    private CanvasGroup countdown3;
-    private CanvasGroup invisible;
-    private CanvasGroup hide;
     private Coroutine countdownCoroutine;
+    private StatusFollow statusFollow;
 
     void Start()
     {
         lightCheck = GameObject.FindWithTag("Player").GetComponent<LightCheck>();
         bagManager = GameObject.FindWithTag("BagManager").GetComponent<BagManager>();
         failCanvas = GameObject.FindWithTag("Fail").GetComponent<CanvasGroup>();
-        countdown1 = GameObject.FindWithTag("1").GetComponent<CanvasGroup>();
-        countdown2 = GameObject.FindWithTag("2").GetComponent<CanvasGroup>();
-        countdown3 = GameObject.FindWithTag("3").GetComponent<CanvasGroup>();
-        invisible = GameObject.FindWithTag("Invisible").GetComponent<CanvasGroup>();
-        hide = GameObject.FindWithTag("Hide").GetComponent<CanvasGroup>();
+        statusFollow = GameObject.FindWithTag("StatusUI").GetComponent<StatusFollow>();
     }
 
     void Update()
@@ -59,14 +51,14 @@ public class LifeManager : MonoBehaviour
             }
         }
 
-        if (isSafe)
+        if (lightCheck.isInShadow)
         {
-            countdown1.alpha = 0;
-            countdown2.alpha = 0;
-            countdown3.alpha = 0;
+            statusFollow.ChangeImage(3);
         }
-        hide.alpha = lightCheck.isInShadow ? 1 : 0;
-        invisible.alpha = inInvisible ? 1 : 0;
+        if (inInvisible)
+        {
+            statusFollow.ChangeImage(4);
+        }
     }
 
     private void UsePotion()
@@ -101,21 +93,15 @@ public class LifeManager : MonoBehaviour
 
             if (countdownTime == 3)
             {
-                countdown1.alpha = 1;
-                countdown2.alpha = 0;
-                countdown3.alpha = 0;
+                statusFollow.ChangeImage(0);
             }
             else if (countdownTime == 2)
             {
-                countdown1.alpha = 0;
-                countdown2.alpha = 1;
-                countdown3.alpha = 0;
+                statusFollow.ChangeImage(1);
             }
             else if (countdownTime == 1)
             {
-                countdown1.alpha = 0;
-                countdown2.alpha = 0;
-                countdown3.alpha = 1;
+                statusFollow.ChangeImage(2);
             }
 
             yield return new WaitForSecondsRealtime(1);
@@ -125,9 +111,6 @@ public class LifeManager : MonoBehaviour
 
         if (!isSafe)
         {
-            countdown1.alpha = 0;
-            countdown2.alpha = 0;
-            countdown3.alpha = 0;
             // show fail
             failCanvas.alpha = 1;
             failCanvas.interactable = true;

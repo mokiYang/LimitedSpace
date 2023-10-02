@@ -9,24 +9,37 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        teach = GameObject.FindWithTag("Teach").GetComponent<CanvasGroup>();
+        GameObject teachObject = GameObject.FindWithTag("Teach");
+        if (teachObject)
+        {
+            teach = GameObject.FindWithTag("Teach").GetComponent<CanvasGroup>();
+        }
     }
 
-    public void start()
+    public void StartGame()
     {
-        teach.alpha = 0;
-        teach.interactable = true;
-        teach.blocksRaycasts = true;
+        Debug.Log("start");
+        if (teach)
+        {
+            teach.alpha = 0;
+            teach.interactable = true;
+            teach.blocksRaycasts = true;
+        }
+        else
+        {
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentSceneIndex);
+        }
     }
 
-    public void next()
+    public void Next()
     {
         Debug.Log("startGame");
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex + 1);
     }
 
-    public void retry()
+    public void Retry()
     {
         Debug.Log("retry");
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
