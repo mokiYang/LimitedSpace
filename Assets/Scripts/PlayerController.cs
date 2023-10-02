@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,10 +7,15 @@ public class PlayerController : MonoBehaviour
     public float lightSpeed = 3.0f;
     public float interactDistance = 2f;
 
+    public RuntimeAnimatorController[] animatorControllers;
+    public Avatar[] avatars;
+
     private LightCheck lightCheck;
     private GameObject planet;
     private Rigidbody rb;
     private Vector3 moveDirection;
+    private Animator playerAnimator;
+    private float realSpeed;
 
     void Start()
     {
@@ -21,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
         planet = GameObject.FindWithTag("Plane");
         lightCheck = GameObject.FindWithTag("Player").GetComponent<LightCheck>();
+        playerAnimator = GetComponent<Animator>();
     }
 
     void Update()
@@ -28,6 +33,21 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         moveDirection = (horizontal * transform.right + vertical * transform.forward).normalized;
+        bool isMove = vertical != 0 || horizontal != 0;
+        if (isMove)
+        {
+            if (realSpeed == speed)
+            {
+                ChangeAnimator(2);
+            } else
+            {
+                ChangeAnimator(1);
+            }
+        }
+        else
+        {
+            ChangeAnimator(0);
+        }
     }
 
     void FixedUpdate()
@@ -44,12 +64,18 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 50 * Time.fixedDeltaTime);
 
         Vector3 projectedMoveDirection = Vector3.ProjectOnPlane(moveDirection, gravityUp);
-        float realSpeed = lightCheck.isInShadow ? speed : lightSpeed;
+        realSpeed = lightCheck.isInShadow ? speed : lightSpeed;
         rb.MovePosition(rb.position + projectedMoveDirection * realSpeed * Time.fixedDeltaTime);
 
         // 让 player 保持在 plane 表面，不这么写 player 就会莫名向天上飞
         Vector3 newPosition = rb.position;
         newPosition = (newPosition - planet.transform.position).normalized * (planet.transform.localScale.x / 2);
         rb.MovePosition(planet.transform.position + newPosition);
+    }
+
+    void ChangeAnimator(int index)
+    {
+        playerAnimator.runtimeAnimatorController = animatorControllers[index];
+        playerAnimator.avatar = avatars[index];
     }
 }
