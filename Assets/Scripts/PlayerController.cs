@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     public float interactDistance = 2f;
 
     private GameObject planet;
-    //private BagManager bagManager;
     private Rigidbody rb;
     private Vector3 moveDirection;
 
