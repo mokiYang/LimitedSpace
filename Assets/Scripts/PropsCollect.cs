@@ -9,11 +9,13 @@ public class PropsCollect : MonoBehaviour
     private bool playerNearby;
     private BagManager bagManager;
     private CanvasGroup successCanvas;
+    private GameObject lockBox;
 
     void Start()
     {
         bagManager = GameObject.FindWithTag("BagManager").GetComponent<BagManager>();
         successCanvas = GameObject.FindWithTag("Success").GetComponent<CanvasGroup>();
+        lockBox = GameObject.FindWithTag("LockBox");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -77,6 +79,10 @@ public class PropsCollect : MonoBehaviour
         {
             bagManager.UpdateUI();
             gameObject.tag = "Art";
+            if (lockBox)
+            {
+                Destroy(lockBox);
+            }
         }
     }
 

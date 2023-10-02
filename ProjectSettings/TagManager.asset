@@ -29,6 +29,7 @@ TagManager:
   - Teach
   - StatusUI
   - Door
+  - LockBox
   layers:
   - Default
   - TransparentFX
