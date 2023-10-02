@@ -12,7 +12,6 @@ public class LifeManager : MonoBehaviour
     private LightCheck lightCheck;
     private BagManager bagManager;
     private bool inInvisible = false;
-    private CanvasGroup successCanvas;
     private CanvasGroup failCanvas;
     private Coroutine countdownCoroutine;
     private StatusFollow statusFollow;
@@ -22,7 +21,6 @@ public class LifeManager : MonoBehaviour
         lightCheck = GameObject.FindWithTag("Player").GetComponent<LightCheck>();
         bagManager = GameObject.FindWithTag("BagManager").GetComponent<BagManager>();
         failCanvas = GameObject.FindWithTag("Fail").GetComponent<CanvasGroup>();
-        successCanvas = GameObject.FindWithTag("Success").GetComponent<CanvasGroup>();
         statusFollow = GameObject.FindWithTag("StatusUI").GetComponent<StatusFollow>();
     }
 
@@ -112,6 +110,7 @@ public class LifeManager : MonoBehaviour
 
         if (!isSafe)
         {
+            statusFollow.CloseImage();
             // show fail
             failCanvas.alpha = 1;
             failCanvas.interactable = true;
